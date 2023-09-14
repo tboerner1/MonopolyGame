@@ -1,122 +1,122 @@
-1 none 0 0
+1 go
 GO
 
-2 Brown 60 2
+2 bProperty Brown 60 2
 MEDITERANEAN AVENUE
 
-3 none 0 0
+3 cChest
 COMMUNITY CHEST
 
-4 Brown 60 4
+4 bProperty Brown 60 4
 BALTIC AVENUE
 
-5 none 0 200
+5 tax
 INCOME TAX
 
-6 none 200 25
+6 railroad 200 25
 READING RAILROAD
 
-7 Light_Blue 100 6
+7 bProperty Light_Blue 100 6
 ORIENTAL AVENUE
 
-8 none 0 0
+8 chance
 CHANCE
 
-9 Light_Blue 100 6
+9 bProperty Light_Blue 100 6
 VERMONT AVENUE
 
-10 Light_Blue 120 8
+10 bProperty Light_Blue 120 8
 CONNECTICUT AVENUE
 
-11 none 0 0
+11 jVisiting
 JUST VISITING
 
-12 Pink 140 10
+12 bProperty Pink 140 10
 ST. CHARLES PLACE
 
-13 none 150 0
+13 utility 150
 ELECTRIC COMPANY
 
-14 Pink 140 10
+14 bProperty Pink 140 10
 STATES AVENUE
 
-15 Pink 160 12
+15 bProperty Pink 160 12
 VIRGINIA AVENUE
 
-16 none 200 25
+16 railroad 200 25
 PENNSYLVANIA RAILROAD
 
-17 Orange 180 14
+17 bProperty Orange 180 14
 ST. JAMES PLACE
 
-18 none 0 0
+18 cChest
 COMMUNITY CHEST
 
-19 Orange 180 14
+19 bProperty Orange 180 14
 TENNESSEE AVENUE
 
-20 Orange 200 16
+20 bProperty Orange 200 16
 NEW YORK AVENUE
 
-21 none 0 0
+21 fParking
 FREE PARKING
 
-22 Red 220 18
+22 bProperty Red 220 18
 KENTUCKY AVENUE
 
-23 none 0 0
+23 chance
 CHANCE
 
-24 Red 220 18
+24 bProperty Red 220 18
 INDIANA AVENUE
 
-25 Red 240 20
+25 bProperty Red 240 20
 ILLINOIS AVENUE
 
-26 none 200 25
+26 railroad 200 25
 B. & O. RAILROAD
 
-27 Yellow 260 22
+27 bProperty Yellow 260 22
 ATLANTIC AVENUE
 
-28 Yellow 260 22
+28 bProperty Yellow 260 22
 VENTNOR AVENUE
 
-29 none 150 0
+29 utility 150
 WATER WORKS
 
-30 Yellow 280 24
+30 bProperty Yellow 280 24
 MARVIN GARDENS
 
-31 none 0 0
+31 gtJail
 GO TO JAIL
 
-32 Green 300 26
+32 bProperty Green 300 26
 PACIFIC AVENUE
 
-33 Green 300 26
+33 bProperty Green 300 26
 NORTH CAROLINA AVENUE
 
-34 none 0 0
+34 cChest
 COMMUNITY CHEST
 
-35 Green 320 28
+35 bProperty Green 320 28
 PENNSYLVANIA AVENUE
 
-36 none 200 25
+36 railroad 200 25
 SHORT LINE
 
-37 none 0 0
+37 chance
 CHANCE
 
-38 Dark_Blue 350 35
+38 bProperty Dark_Blue 350 35
 PARK PLACE
 
-39 none 0 100
+39 tax
 LUXURY TAX
 
-40 Dark_Blue 400 50
+40 bProperty Dark_Blue 400 50
 BOARDWALK
 
-41 none 0 0
+41 jail
 IN JAIL

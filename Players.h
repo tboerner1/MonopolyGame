@@ -46,12 +46,13 @@ public:
 		isBankrupt = true;
 	}
 
+	//this function rolls two dice for an object of type Players.
 	void rollDice() {
-		char choice;
+		string choice;
 		cout << "Roll Dice? (y or n)";
 		cin >> choice;
 		cout << endl;
-		if (choice == 'y') {
+		if (choice == "Y" || choice == "y") {
 			die1 = (rand() % 6) + 1;
 			die2 = (rand() % 6) + 1;
 			cout << "You Rolled a " << die1 << " and a " << die2 << endl;
@@ -72,6 +73,8 @@ private:
 	int die2 = 0;
 	string die3 = " ";
 
+
+	//This function moves the player after 2 dice are rolled.
 	void move(int die1, int die2) {
 		for (int i = 0; i < die1 + die2; i++) {
 			if (position == 40) {
