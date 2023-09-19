@@ -22,6 +22,9 @@ public:
 	int getMoney() {
 		return money;
 	}
+	int getPlayerNum() {
+		return playerNum;
+	}
 	string getPiece() {
 		return piece;
 	}
@@ -36,6 +39,16 @@ public:
 	//iMoney is input money
 	void setMoney(int iMoney) {
 		money = iMoney;
+	}
+	void subtractMoney(int value) {
+		money -= value;
+	}
+	void addMoney(int value) {
+		money += value;
+	}
+	//iPlayerNum is input playerNum
+	void setPlayerNum(int iPlayerNum) {
+		playerNum = iPlayerNum;
 	}
 	//iPiece is input piece
 	void setPiece(string iPiece) {
@@ -67,6 +80,7 @@ public:
 private:
 	int position = 1;
 	int money = 0;
+	int playerNum = 0;
 	string piece = " ";
 	bool isBankrupt = false;
 	int die1 = 0;

@@ -19,11 +19,6 @@ public:
 	void setName(string iName) {
 		name = iName;
 	}
-	//iPosition is input position
-	void setPosition(int iPosition) {
-		position = iPosition;
-	}
-
 	int getPrice() {
 		return price;
 	}
@@ -32,6 +27,9 @@ public:
 	}
 	int getRentPrice() {
 		return rentPrice;
+	}
+	int getPriceOfHouse() {
+		return priceOfHouse;
 	}
 	int getRent1() {
 		return rent1;
@@ -48,6 +46,9 @@ public:
 	int getRentHotel() {
 		return rentHotel;
 	}
+	int getNumHouses() {
+		return numHouses;
+	}
 	bool getIsOwned() {
 		return isOwned;
 	}
@@ -60,13 +61,17 @@ public:
 	string getColor() {
 		return color;
 	}
-	string getOwner() {
+	int getOwner() {
 		return owner;
 	}
 	string getId() {
 		return id;
 	}
 
+	//iPosition is input position
+	void setPosition(int iPosition) {
+		position = iPosition;
+	}
 	//iPrice is input Price;
 	void setPrice(int iPrice) {
 		price = iPrice;
@@ -78,6 +83,10 @@ public:
 	//iRentPrice is input rent price
 	void setRentPrice(int iRentPrice) {
 		rentPrice = iRentPrice;
+	}
+	//iPriceOfHouse is input priceOfHouse
+	void setPriceOfHouse(int iPriceOfHouse) {
+		priceOfHouse = iPriceOfHouse;
 	}
 	//iRent is input rent price
 	void setRent1(int iRent) {
@@ -121,13 +130,27 @@ public:
 		color = iColor;
 	}
 	//iOwner is input owner
-	void setOwner(string iOwner) {
+	void setOwner(int iOwner) {
 		owner = iOwner;
 	}
 	//iId is input id
 	void setId(string iId) {
 		id = iId;
 	}
+
+	//adds houses up to 5
+	void addHouse() {
+		if (numHouses < 5) {
+			numHouses += 1;
+		}
+	}
+	//subtracts houses down to 0
+	void subtractHouse() {
+		if (numHouses > 0) {
+			numHouses -= 1;
+		}
+	}
+
 
 
 private:
@@ -137,9 +160,11 @@ private:
 	int price = 0, mortgagePrice = 0, rentPrice = 0;
 	//set initial rent prices for buildings
 	int rent1 = 0, rent2 = 0, rent3 = 0, rent4 = 0, rentHotel = 0;
+	int priceOfHouse = 0;
+	int numHouses = 0;
+	int owner = 0;
 	bool isOwned = false, isMortgaged = false, isMonopolized = false;
 	string color = " ";
-	string owner = " ";
 	string id = " ";
 	//isTwo or isThree or isFour
 };
