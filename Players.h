@@ -14,6 +14,9 @@ class Players {
 public:
 	Players() {
 		srand(time(0));
+		for (int i = 0; i < 28; i++) {
+			indexOfSpacesOwned[i] = -1;
+		}
 	}
 
 	int getPosition() {
@@ -30,6 +33,9 @@ public:
 	}
 	bool getIsBankrupt() {
 		return isBankrupt;
+	}
+	int getSpacesOwnedIndex(int index) {
+		return indexOfSpacesOwned[index];
 	}
 
 	//iPosition is input position
@@ -52,11 +58,37 @@ public:
 	}
 	//iPiece is input piece
 	void setPiece(string iPiece) {
-
+		piece = iPiece;
 	}
 	//Once isBankrupt is true, it cannot be false again until a new game is started.
 	void setBankrupt() {
 		isBankrupt = true;
+	}
+	//This function initializes all the positions in the array to -1
+	void initializeSpacesOwned() {
+		for (int i = 0; i < 28; i++) {
+			indexOfSpacesOwned[i] = -1;
+		}
+	}
+	//index is the index of the tile
+	void addProperty(int index) {
+		int i = 0;
+		while (index > indexOfSpacesOwned[i] && indexOfSpacesOwned[i] != -1) {
+			i++;
+		}
+		for (int j = 28 - 2; j > i; j--) {
+			indexOfSpacesOwned[j + 1] = indexOfSpacesOwned[j];
+		}
+		indexOfSpacesOwned[i] = index;
+	}
+	void subtractProperty(int index) {
+		int i = 0;
+		while (index != indexOfSpacesOwned[i]) {
+			i++;
+		}
+		for (int j = i; j < 28 - 1; j++) {
+			indexOfSpacesOwned[j] = indexOfSpacesOwned[j + 1];
+		}
 	}
 
 	//this function rolls two dice for an object of type Players.
@@ -86,13 +118,14 @@ private:
 	int die1 = 0;
 	int die2 = 0;
 	string die3 = " ";
+	int indexOfSpacesOwned[28];
 
 
 	//This function moves the player after 2 dice are rolled.
 	void move(int die1, int die2) {
 		for (int i = 0; i < die1 + die2; i++) {
 			if (position == 40) {
-				position = 0;
+				position = 1;
 			}
 			else if (position == 41) {
 				position = 41;

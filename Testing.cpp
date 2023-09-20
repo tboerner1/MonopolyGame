@@ -3,11 +3,13 @@
 #include <fstream>
 #include <iomanip>
 
+
 void buildBoard(Board tile[], int num_spaces);
 void checkSpace(Board tile[], Players player[], int position, int playerNum);
 int declareBankruptcy(Board tile[], Players player[], int index, int playerNum);
 void buy(Board tile[], Players player[], int index, int playerNum);
 void rent(Board tile[], Players player[], int index, int playerNum);
+void mortgage(Board tile[], Players player[], int index, int playerNum);
 
 
 int main() {
@@ -23,6 +25,7 @@ int main() {
 	for (int j = 0; j < NUM_PLAYERS; j++) {
 		player[j].setPlayerNum(j + 1);
 		player[j].setMoney(MONEY);
+		player[j].initializeSpacesOwned();
 	}
 	
 	int i = 0;
@@ -31,7 +34,7 @@ int main() {
 			cout << "Player " << i + 1 << ": " << endl;
 			player[i].rollDice();
 			checkSpace(tile, player, player[i].getPosition(), player[i].getPlayerNum());
-			num_bankrupt += declareBankruptcy(tile, player, i, player[i].getPlayerNum());
+			num_bankrupt += declareBankruptcy(tile, player, player[i].getPosition()-1, player[i].getPlayerNum());
 		}
 		if (i < NUM_PLAYERS - 1) {
 			i++;
@@ -129,12 +132,15 @@ void checkSpace(Board tile[], Players player[], int position, int playerNum) {
 
 void buy(Board tile[], Players player[], int index, int playerNum) {
 	string choice = "y";
-	while (player[playerNum - 1].getMoney() < tile[index].getPrice() && choice == "y") {
+	while (player[playerNum - 1].getMoney() < tile[index].getPrice()) {
 		cout << "You don't have enough money to purchase this property\n"
 			<< "Would you like to build/mortgage your properties? (y or n)";
 		cin >> choice;
-		if (choice == "Y") {
-			choice = "y";
+		if (choice == "Y" || choice == "y") {
+			mortgage(tile, player, index, playerNum);
+		}
+		else {
+			break;
 		}
 	}
 	if (player[playerNum - 1].getMoney() >= tile[index].getPrice()) {
@@ -145,6 +151,7 @@ void buy(Board tile[], Players player[], int index, int playerNum) {
 			tile[index].setIsOwned();
 			tile[index].setOwner(playerNum);
 			player[playerNum - 1].subtractMoney(tile[index].getPrice());
+			player[playerNum - 1].addProperty(index);
 			cout << "Player " << playerNum << " bought " << tile[index].getName() << endl;
 			cout << "You have $" << player[playerNum - 1].getMoney() << " left" << endl << endl;
 		}
@@ -179,13 +186,17 @@ void rent(Board tile[], Players player[], int index, int playerNum) {
 		}
 		cout << "You owe $" << tempRent << endl;
 		if (tempRent > player[playerNum - 1].getMoney()) {
-			while (player[playerNum - 1].getMoney() < tempRent && choice == "y") {
+			while (player[playerNum - 1].getMoney() < tempRent) {
 				cout << "You don't have enough money to pay rent\n"
 					<< "Would you like to build/mortgage your properties? (y or n)";
 				cin >> choice;
-				if (choice == "Y") {
-					choice = "y";
+				if (choice == "Y" || choice == "y") {
+					mortgage(tile, player, index, playerNum);
 				}
+				else {
+					break;
+				}
+				
 			}
 			if (tempRent > player[playerNum - 1].getMoney()) {
 				cout << "You don't have enough money to pay rent\n"
@@ -196,12 +207,14 @@ void rent(Board tile[], Players player[], int index, int playerNum) {
 				player[playerNum - 1].subtractMoney(tempRent);
 				cout << "Player " << playerNum << " paid Player " << tile[index].getOwner()
 					<< " $" << tempRent << endl;
+				player[tile[index].getOwner() - 1].addMoney(tempRent);
 			}
 		}
 		else {
 			player[playerNum - 1].subtractMoney(tempRent);
 			cout << "Player " << playerNum << " paid Player " << tile[index].getOwner()
 				<< " $" << tempRent << endl;
+			player[tile[index].getOwner() - 1].addMoney(tempRent);
 		}
 	}
 	else {
@@ -212,12 +225,71 @@ void rent(Board tile[], Players player[], int index, int playerNum) {
 	}
 }
 
+//This function allows a player to mortgage properties, one property at a time.
+void mortgage(Board tile[], Players player[], int index, int playerNum) {
+	int i = 0;
+	int choice = -1;
+	int counter = 1;
+	cout << "Here is your list of properties:" << endl;
+	while (player[playerNum - 1].getSpacesOwnedIndex(i) != -1 && i != 28 && choice != 0) {
+		int tileIndex = player[playerNum - 1].getSpacesOwnedIndex(i);
+		cout << counter << " " << tile[tileIndex].getName();
+		if (tile[tileIndex].getColor() != " ") {
+			cout << "(" << tile[tileIndex].getColor() << ")" << endl;
+		}
+		else {
+			cout << endl;
+		}
+		cout << "Mortgage Value: $" << tile[tileIndex].getMortgagePrice() << endl;
+		if (tile[tileIndex].getIsMortgaged()) {
+			cout << "MORTGAGED" << endl;
+		}
+		else {
+			cout << "UNMORTGAGED" << endl;
+		}
+		i++;
+		counter++;
+		if ((choice != 0 && i == 28) || (choice != 0 && player[playerNum - 1].getSpacesOwnedIndex(i) == -1)){
+			cout << "Please enter the number of the property you would like to mortgage/unmortgage\n"
+				<< "Only enter 1 number at a time. Please enter an integer value (0 to end): ";
+			cin >> choice;
+			if (choice != 0 && choice <= i && choice > -1) {
+				system("cls");
+				tileIndex = player[playerNum - 1].getSpacesOwnedIndex(choice - 1);
+				tile[tileIndex].setIsMortgaged();
+				if (tile[tileIndex].getIsMortgaged()) {
+					player[playerNum - 1].addMoney(tile[tileIndex].getMortgagePrice());
+					cout << "Player " << playerNum << " mortgaged " << tile[tileIndex].getName();
+					if (tile[tileIndex].getColor() != " ") {
+						cout << "(" << tile[tileIndex].getColor() << ")" << endl;
+					}
+					else {
+						cout << endl;
+					}
+				}
+				else {
+					player[playerNum - 1].subtractMoney(tile[tileIndex].getMortgagePrice());
+					cout << "Player " << playerNum << " unmortgaged " << tile[tileIndex].getName();
+					if (tile[tileIndex].getColor() != " ") {
+						cout << "(" << tile[tileIndex].getColor() << ")" << endl;
+					}
+					else {
+						cout << endl;
+					}
+				}
+			}
+			cout << "You have $" << player[playerNum - 1].getMoney() << " now" << endl << endl;
+			i = 0;
+			counter = 1;
+		}
+	}
+}
 
 
 //This function allows the current player to declare bankruptcy
 //at the end of their turn
 int declareBankruptcy(Board tile[], Players player[], int index, int playerNum) {
-	if (player[playerNum].getMoney() == -1) {
+	if (player[playerNum-1].getMoney() == -1) {
 		player[playerNum - 1].setBankrupt();
 		cout << "You declared bankruptcy. Goodbye!" << endl << endl;
 		return 1;
