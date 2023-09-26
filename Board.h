@@ -150,6 +150,9 @@ public:
 			numHouses -= 1;
 		}
 	}
+	void addPrice(int iPrice) {
+		price += iPrice;
+	}
 
 
 

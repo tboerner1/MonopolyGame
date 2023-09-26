@@ -31,11 +31,20 @@ public:
 	string getPiece() {
 		return piece;
 	}
+	int getDie1() {
+		return die1;
+	}
+	int getDie2() {
+		return die2;
+	}
 	bool getIsBankrupt() {
 		return isBankrupt;
 	}
 	int getSpacesOwnedIndex(int index) {
 		return indexOfSpacesOwned[index];
+	}
+	int getNumRailroads() {
+		return numRailroads;
 	}
 
 	//iPosition is input position
@@ -90,6 +99,12 @@ public:
 			indexOfSpacesOwned[j] = indexOfSpacesOwned[j + 1];
 		}
 	}
+	void addRailroad() {
+		numRailroads += 1;
+	}
+	void subtractRailroad() {
+		numRailroads -= 1;
+	}
 
 	//this function rolls two dice for an object of type Players.
 	void rollDice() {
@@ -120,12 +135,17 @@ private:
 	string die3 = " ";
 	int indexOfSpacesOwned[28];
 
+	int numRailroads = 0;
+
 
 	//This function moves the player after 2 dice are rolled.
 	void move(int die1, int die2) {
 		for (int i = 0; i < die1 + die2; i++) {
 			if (position == 40) {
 				position = 1;
+				cout << "You passed GO, collect $200" << endl;
+				money += 200;
+				cout << "You now have $" << money << endl << endl;
 			}
 			else if (position == 41) {
 				position = 41;
