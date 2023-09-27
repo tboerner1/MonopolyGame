@@ -8,6 +8,7 @@ void buildBoard(Board tile[], int num_spaces);
 void checkSpace(Board tile[], Players player[], int position, int playerNum);
 int declareBankruptcy(Board tile[], Players player[], int index, int playerNum);
 void buy(Board tile[], Players player[], int index, int playerNum);
+void addTile(Board tile[], Players player[], int index, int playerNum);
 void rent(Board tile[], Players player[], int index, int playerNum);
 int propertyRent(Board tile[], Players player[], int index, int playerNum);
 int utilityRent(Board tile[], Players player[], int index, int playerNum);
@@ -16,6 +17,41 @@ void tax(Board tile[], Players player[], int index, int playerNum);
 void checkMortgage(Board tile[], Players player[], int index, int playerNum, int owed, string toPay);
 void forceBankruptcy(Board tile[], Players player[], int index, int playerNum, int owed, string toPay);
 void mortgage(Board tile[], Players player[], int index, int playerNum);
+void buildMortgage(Board tile[], Players player[], int index, int playerNum);
+void build(Board tile[], Players player[], int index, int playerNum);
+void removeHouses(Board tile[], Players player[], int index, int playerNum);
+
+const int BROWN1 = 1;
+const int BROWN2 = 3;
+const int RAILROAD1 = 5;
+const int LIGHT_BLUE1 = 6;
+const int LIGHT_BLUE2 = 8;
+const int LIGHT_BLUE3 = 9;
+const int PINK1 = 11;
+const int UTILITY1 = 12;
+const int PINK2 = 13;
+const int PINK3 = 14;
+const int RAILROAD2 = 15;
+const int ORANGE1 = 16;
+const int ORANGE2 = 18;
+const int ORANGE3 = 19;
+const int F_PARKING = 20;
+const int RED1 = 21;
+const int RED2 = 23;
+const int RED3 = 24;
+const int RAILROAD3 = 25;
+const int YELLOW1 = 26;
+const int YELLOW2 = 27;
+const int UTILITY2 = 28;
+const int YELLOW3 = 29;
+const int GT_JAIL = 30;
+const int GREEN1 = 31;
+const int GREEN2 = 32;
+const int GREEN3 = 34;
+const int RAILROAD4 = 35;
+const int DARK_BLUE1 = 37;
+const int DARK_BLUE2 = 39;
+const int JAIL = 40;
 
 
 
@@ -160,6 +196,7 @@ void buy(Board tile[], Players player[], int index, int playerNum) {
 			player[playerNum - 1].subtractMoney(tile[index].getPrice());
 			player[playerNum - 1].addProperty(index);
 			cout << "Player " << playerNum << " bought " << tile[index].getName() << endl;
+			addTile(tile, player, index, playerNum);
 			cout << "You have $" << player[playerNum - 1].getMoney() << " left" << endl << endl;
 		}
 	}
@@ -167,6 +204,100 @@ void buy(Board tile[], Players player[], int index, int playerNum) {
 		cout << "You don't have enough money to purchase this property." << endl << endl;
 	}
 }
+
+//this function adds the tile in one of the player's numColor variables, it also
+//monopolizes a tile if need be.
+void addTile(Board tile[], Players player[], int index, int playerNum) {
+	if (tile[index].getId() == "utility") {
+		player[playerNum - 1].addUtility();
+	}
+	else if (tile[index].getId() == "railroad") {
+		player[playerNum - 1].addRailroad();
+	}
+	else {
+		if (tile[index].getColor() == "Brown") {
+			player[playerNum - 1].addBrown();
+		}
+		else if (tile[index].getColor() == "Light_Blue") {
+			player[playerNum - 1].addLightBlue();
+		}
+		else if (tile[index].getColor() == "Pink") {
+			player[playerNum - 1].addPink();
+		}
+		else if (tile[index].getColor() == "Orange") {
+			player[playerNum - 1].addOrange();
+		}
+		else if (tile[index].getColor() == "Red") {
+			player[playerNum - 1].addRed();
+		}
+		else if (tile[index].getColor() == "Yellow") {
+			player[playerNum - 1].addYellow();
+		}
+		else if (tile[index].getColor() == "Green") {
+			player[playerNum - 1].addGreen();
+		}
+		else if (tile[index].getColor() == "Dark_Blue") {
+			player[playerNum - 1].addDarkBlue();
+		}
+	}
+	monopolize(tile, player, index, playerNum);
+}
+
+//This function sets any property to a monopoly if the player has the correct amount of that property
+void monopolize(Board tile[], Players player[], int index, int PlayerNum) {
+	if (tile[index].getId() == "utility" && player[PlayerNum-1].getNumUtilities()== 2) {
+		tile[UTILITY1].setIsMonopolized();
+		tile[UTILITY2].setIsMonopolized();
+	}
+	else if (tile[index].getId() == "railroad" && player[PlayerNum - 1].getNumUtilities() == 4) {
+		tile[RAILROAD1].setIsMonopolized();
+		tile[RAILROAD2].setIsMonopolized();
+		tile[RAILROAD3].setIsMonopolized();
+		tile[RAILROAD4].setIsMonopolized();
+	}
+	else if (tile[index].getId() == "bProperty") {
+		if (tile[index].getColor() == "Brown" && player[PlayerNum - 1].getNumBrown() == 2) {
+			tile[BROWN1].setIsMonopolized();
+			tile[BROWN2].setIsMonopolized();
+		}
+		else if (tile[index].getColor() == "Light_Blue" && player[PlayerNum - 1].getNumLightBlue() == 3) {
+			tile[LIGHT_BLUE1].setIsMonopolized();
+			tile[LIGHT_BLUE2].setIsMonopolized();
+			tile[LIGHT_BLUE3].setIsMonopolized();
+		}
+		else if (tile[index].getColor() == "Pink" && player[PlayerNum - 1].getNumPink() == 3) {
+			tile[PINK1].setIsMonopolized();
+			tile[PINK2].setIsMonopolized();
+			tile[PINK3].setIsMonopolized();
+		}
+		else if (tile[index].getColor() == "Orange" && player[PlayerNum - 1].getNumOrange() == 3) {
+			tile[ORANGE1].setIsMonopolized();
+			tile[ORANGE2].setIsMonopolized();
+			tile[ORANGE3].setIsMonopolized();
+		}
+		else if (tile[index].getColor() == "Red" && player[PlayerNum - 1].getNumRed() == 3) {
+			tile[RED1].setIsMonopolized();
+			tile[RED2].setIsMonopolized();
+			tile[RED3].setIsMonopolized();
+		}
+		else if (tile[index].getColor() == "Yellow" && player[PlayerNum - 1].getNumYellow() == 3) {
+			tile[YELLOW1].setIsMonopolized();
+			tile[YELLOW2].setIsMonopolized();
+			tile[YELLOW3].setIsMonopolized();
+		}
+		else if (tile[index].getColor() == "Green" && player[PlayerNum - 1].getNumGreen() == 3) {
+			tile[GREEN1].setIsMonopolized();
+			tile[GREEN2].setIsMonopolized();
+			tile[GREEN3].setIsMonopolized();
+		}
+		else if (tile[index].getColor() == "Dark_Blue" && player[PlayerNum - 1].getNumDarkBlue() == 2) {
+			tile[DARK_BLUE1].setIsMonopolized();
+			tile[DARK_BLUE2].setIsMonopolized();
+		}
+	}
+
+}
+
 //Forces the player to pay rent to another play, then the player either
 //mortgages properties or declares bankruptcy
 void rent(Board tile[], Players player[], int index, int playerNum) {
@@ -273,8 +404,8 @@ void tax(Board tile[], Players player[], int index, int playerNum) {
 	}
 	if (player[playerNum -1].getMoney() != -1) {
 		player[playerNum - 1].subtractMoney(tempTax);
-		//this adds to the price of free parking
-		tile[20].addPrice(tempTax);
+		//this adds to the price of free parking which is at index 20
+		tile[F_PARKING].addPrice(tempTax);
 		cout << "You have $" << player[playerNum - 1].getMoney() << " left" << endl << endl;
 	}
 }
@@ -289,7 +420,7 @@ void checkMortgage(Board tile[], Players player[], int index, int playerNum, int
 		cin >> choice;
 		if (choice == "Y" || choice == "y") {
 			cout << "You owe $" << owed << endl <<endl;
-			mortgage(tile, player, index, playerNum);
+			buildMortgage(tile, player, index, playerNum);
 		}
 		else {
 			break;
@@ -297,20 +428,37 @@ void checkMortgage(Board tile[], Players player[], int index, int playerNum, int
 	}
 }
 
-//This function allows a player to mortgage properties, one property at a time.
-void mortgage(Board tile[], Players player[], int index, int playerNum) {
+//This prints off the list of properties for the current player
+//Then it lets the player choose if they want to build or mortgage
+void buildMortgage(Board tile[], Players player[], int index, int playerNum) {
 	int i = 0;
+	//represents property choice
 	int choice = -1;
+	//represents build or mortgage choice
+	string choice2 = " ";
 	int counter = 1;
+	cout << "You have $" << player[playerNum - 1].getMoney() << endl << endl;
 	cout << "Here is your list of properties:" << endl;
+	//i is the position in the array that stores the indexes of the properties owned
 	while (player[playerNum - 1].getSpacesOwnedIndex(i) != -1 && i != 28 && choice != 0) {
+		//tileIndex is the index of the tiles that the player owns
 		int tileIndex = player[playerNum - 1].getSpacesOwnedIndex(i);
 		cout << counter << " " << tile[tileIndex].getName();
+		//checks to see if the tile has a color and prints it if it does
 		if (tile[tileIndex].getColor() != " ") {
 			cout << "(" << tile[tileIndex].getColor() << ")" << endl;
 		}
 		else {
 			cout << endl;
+		}
+		if (tile[tileIndex].getIsMonopolized()) {
+			cout << "House Price: $" << tile[tileIndex].getPriceOfHouse() << endl;
+			if (tile[tileIndex].getNumHouses() != 5) {
+				cout << "Number of Houses: " << tile[tileIndex].getNumHouses() << endl;
+			}
+			else {
+				cout << "Hotel" << endl;
+			}
 		}
 		cout << "Mortgage Value: $" << tile[tileIndex].getMortgagePrice() << endl;
 		if (tile[tileIndex].getIsMortgaged()) {
@@ -321,41 +469,84 @@ void mortgage(Board tile[], Players player[], int index, int playerNum) {
 		}
 		i++;
 		counter++;
-		if ((choice != 0 && i == 28) || (choice != 0 && player[playerNum - 1].getSpacesOwnedIndex(i) == -1)){
-			cout << "Please enter the number of the property you would like to mortgage/unmortgage\n"
+		if ((choice > 0 && i == 28) || (choice > 0 && player[playerNum - 1].getSpacesOwnedIndex(i) == -1)) {
+			cout << "Please enter the number of the property you would like to build/mortgage/unmortgage\n"
 				<< "Only enter 1 number at a time. Please enter an integer value (0 to end): ";
 			cin >> choice;
-			if (choice != 0 && choice <= i && choice > -1) {
-				system("cls");
-				tileIndex = player[playerNum - 1].getSpacesOwnedIndex(choice - 1);
-				tile[tileIndex].setIsMortgaged();
-				if (tile[tileIndex].getIsMortgaged()) {
-					player[playerNum - 1].addMoney(tile[tileIndex].getMortgagePrice());
-					cout << "Player " << playerNum << " mortgaged " << tile[tileIndex].getName();
-					if (tile[tileIndex].getColor() != " ") {
-						cout << "(" << tile[tileIndex].getColor() << ")" << endl;
-					}
-					else {
-						cout << endl;
-					}
+			cout << endl;
+			if (choice > 0 && choice <= i) {
+				int tileIndex = player[playerNum - 1].getSpacesOwnedIndex(choice - 1);
+				//if property is a buildable property, monopolized, and not mortgaged
+				if (tile[tileIndex].getId() == "bProperty" && tile[tileIndex].getIsMonopolized() && !tile[tileIndex].getIsMortgaged()) {
+					cout << "Would you like to build or mortgage property? (Enter 'B' for build, 'M' for mortgage): ";
+					cin >> choice2;
 				}
+				cout << endl;
+				if (choice2 == "B" || choice2 == "b") {
+					build(tile, player, tileIndex, playerNum);
+				}
+				//if property is not monopolized, or is mortgaged, or is not a buildable property
 				else {
-					player[playerNum - 1].subtractMoney(tile[tileIndex].getMortgagePrice());
-					cout << "Player " << playerNum << " unmortgaged " << tile[tileIndex].getName();
-					if (tile[tileIndex].getColor() != " ") {
-						cout << "(" << tile[tileIndex].getColor() << ")" << endl;
-					}
-					else {
-						cout << endl;
-					}
+					mortgage(tile, player, tileIndex, playerNum);
 				}
 			}
-			cout << "You have $" << player[playerNum - 1].getMoney() << " now" << endl << endl;
-			i = 0;
-			counter = 1;
+		}
+		i = 0;
+		counter = 1;
+	}
+}
+
+//This function allows players to add or remove houses 1 at a time
+void build(Board tile[], Players player[], int index, int playerNum) {
+
+}
+
+//This function removes the houses from every property in that color if
+//one has been mortgaged, and it adds the cost of those houses to the 
+//player's money
+void removeHouses(Board tile[], Players player[], int index, int playerNum) {
+
+}
+
+//This mortgages or unmortgages a property depending on what state it is in, then
+//it adds or subtracts from the players money.
+void mortgage(Board tile[], Players player[], int index, int playerNum) {
+	//If the tile is unmortgaged and the number of houses is 0
+	if (!tile[index].getIsMortgaged() && tile[index].getNumHouses() == 0) {
+		player[playerNum - 1].addMoney(tile[index].getMortgagePrice());
+		cout << "Player " << playerNum << " mortgaged " << tile[index].getName();
+		if (tile[index].getColor() != " ") {
+			cout << "(" << tile[index].getColor() << ")" << endl;
+		}
+		else {
+			cout << endl;
+		}
+	}
+	//if the tile is not mortgaged and the number of houses is not 0
+	else if (!tile[index].getIsMortgaged() && tile[index].getNumHouses() != 0) {
+		removeHouses(tile, player, index, playerNum);
+	}
+	//if the tile is mortgaged 
+	else if(tile[index].getIsMortgaged()){
+		//If player has enough money
+		if (player[playerNum - 1].getMoney() >= tile[index].getMortgagePrice()) {
+			player[playerNum - 1].subtractMoney(tile[index].getMortgagePrice());
+			cout << "Player " << playerNum << " unmortgaged " << tile[index].getName();
+			if (tile[index].getColor() != " ") {
+				cout << "(" << tile[index].getColor() << ")" << endl;
+			}
+			else {
+				cout << endl;
+			}
+		}
+		//If player doesn't have enough money
+		else {
+			cout << "You don't have enough to unmortgage that property" << endl;
 		}
 	}
 }
+
+
 
 //Forces a player into a bankrupt state if they don't have enough money to pay for something
 //that they have to pay for, such as rent or taxes.
@@ -388,5 +579,4 @@ int declareBankruptcy(Board tile[], Players player[], int index, int playerNum) 
 			return 0;
 		}
 	}
-
 }
