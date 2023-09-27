@@ -43,8 +43,35 @@ public:
 	int getSpacesOwnedIndex(int index) {
 		return indexOfSpacesOwned[index];
 	}
+	int getNumBrown() {
+		return numBrown;
+	}
+	int getNumLightBlue() {
+		return numLightBlue;
+	}
+	int getNumPink() {
+		return numPink;
+	}
+	int getNumOrange() {
+		return numOrange;
+	}
+	int getNumRed() {
+		return numRed;
+	}
+	int getNumYellow() {
+		return numYellow;
+	}
+	int getNumGreen() {
+		return numGreen;
+	}
+	int getNumDarkBlue() {
+		return numDarkBlue;
+	}
 	int getNumRailroads() {
 		return numRailroads;
+	}
+	int getNumUtilities() {
+		return numUtilities;
 	}
 
 	//iPosition is input position
@@ -99,11 +126,65 @@ public:
 			indexOfSpacesOwned[j] = indexOfSpacesOwned[j + 1];
 		}
 	}
+	void addBrown() {
+		numBrown += 1;
+	}
+	void subtractBrown() {
+		numBrown -= 1;
+	}
+	void addLightBlue() {
+		numLightBlue += 1;
+	}
+	void subtractLightBlue() {
+		numLightBlue -= 1;
+	}
+	void addPink() {
+		numPink += 1;
+	}
+	void subtractPink() {
+		numPink -= 1;
+	}
+	void addOrange() {
+		numOrange += 1;
+	}
+	void subtractOrange() {
+		numOrange -= 1;
+	}
+	void addRed() {
+		numRed += 1;
+	}
+	void subtractRed(){
+		numRed -= 1;
+	}
+	void addYellow() {
+		numYellow += 1;
+	}
+	void subtractYellow() {
+		numYellow -= 1;
+	}
+	void addGreen() {
+		numGreen += 1;
+	}
+	void subtractGreen() {
+		numGreen-= 1;
+	}
+	void addDarkBlue() {
+		numDarkBlue += 1;
+	}
+	void subtractDarkBlue() {
+		numDarkBlue -= 1;
+	}
 	void addRailroad() {
 		numRailroads += 1;
 	}
 	void subtractRailroad() {
 		numRailroads -= 1;
+	}
+	void addUtility() {
+		numUtilities += 1;
+	}
+	void subtractUtility() {
+		numUtilities -= 1;
 	}
 
 	//this function rolls two dice for an object of type Players.
@@ -135,7 +216,16 @@ private:
 	string die3 = " ";
 	int indexOfSpacesOwned[28];
 
+	int numBrown = 0;
+	int numLightBlue = 0;
+	int numPink = 0;
+	int numOrange = 0;
+	int numRed = 0;
+	int numYellow = 0;
+	int numGreen = 0;
+	int numDarkBlue = 0;
 	int numRailroads = 0;
+	int numUtilities = 0;
 
 
 	//This function moves the player after 2 dice are rolled.
