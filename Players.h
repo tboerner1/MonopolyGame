@@ -112,7 +112,7 @@ public:
 		while (index > indexOfSpacesOwned[i] && indexOfSpacesOwned[i] != -1) {
 			i++;
 		}
-		for (int j = 28 - 2; j > i; j--) {
+		for (int j = 28 - 2; j >= i; j--) {
 			indexOfSpacesOwned[j + 1] = indexOfSpacesOwned[j];
 		}
 		indexOfSpacesOwned[i] = index;
@@ -190,7 +190,7 @@ public:
 	//this function rolls two dice for an object of type Players.
 	void rollDice() {
 		string choice;
-		cout << "Roll Dice? (y or n)";
+		cout << "Roll Dice? (y or n): ";
 		cin >> choice;
 		cout << endl;
 		if (choice == "Y" || choice == "y") {

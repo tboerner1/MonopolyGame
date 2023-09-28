@@ -150,6 +150,11 @@ public:
 			numHouses -= 1;
 		}
 	}
+	//sets number of houses to 0
+	void setHouseZero() {
+		numHouses = 0;
+	}
+
 	void addPrice(int iPrice) {
 		price += iPrice;
 	}
